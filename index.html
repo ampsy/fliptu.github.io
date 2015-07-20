@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Fliptu API by fliptu</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Fliptu API</h1>
+        <p></p>
+
+
+        <p class="view"><a href="https://github.com/fliptu">View My GitHub Profile</a></p>
+
+      </header>
+      <section>
+        <p><strong><a href="https://fliptu.com">https://fliptu.com</a> back-end:</strong></p>
+
+<ul>
+<li>
+<code>GET /api/v1/flipbooks/:id</code> - doesn't require access token</li>
+<li>
+<code>GET /api/v1/flipbooks/:id/flips</code> - doesn't require access token</li>
+<li>
+<code>GET /api/v1/flips/:id</code> - doesn't require access token</li>
+<li>
+<code>GET /api/v1/flips/:id/comments</code> - doesn't require access token</li>
+<li>
+<code>POST /api/v1/contact_form</code> - doesn't require access token, accepts name, email, text arguments, sends a message to the staff members (for custom plan requests)</li>
+<li>
+<code>POST /api/v1/cards</code> - doesn't require acces token, accepts params[:card]: a hash with number, name, expiration_month, expiration_year, security_code values, returns a uniq card token in an id field: <code>{ id: '...' }</code>
+</li>
+<li>
+<code>GET /api/v1/plans</code> - doesn't require access token, returns a list of all plans</li>
+<li>
+<code>GET /api/v1/overview</code> - requires access token, lists all brands user has access to:</li>
+</ul>
+
+<pre><code>[{ id: ...,
+   name: ...,
+   personal: ...,
+   flipbooks: [{ id: ...,
+                 name: ...,
+                 social_page: ... }, ...],
+   social_networks: [{ name: ...,
+                       account_id: ... }]}, ... ]
+</code></pre>
+
+<ul>
+<li>
+<code>POST /api/v1/brands/:id/accounts/:network</code> - requires access token, accepts account_id (unique code returned by Fliptu.social call), connects the account to the brand</li>
+<li>
+<code>DELETE /api/v1/brands/:id/accounts/:network</code> - requires access token, disconnects specified social network account from the brand</li>
+<li>
+<code>GET /api/v1/brands/:id/subscription</code> - requires access token, returns the subscription for the brand:</li>
+</ul>
+
+<pre><code>{ plan_id: ..,
+  card_number: .. /* the last 4 digits */,
+  feeds_used: ...,
+  feeds_extra: ... /* the number of extra feeds added in the admin */,
+  feeds_limit: ...,
+  card_url: "/api/v1/cards",
+  url: "/api/v1/brands/:id/subscription",
+  contact_form_url: "/api/v1/contact_form" }
+</code></pre>
+
+<ul>
+<li>
+<code>PUT /api/v1/brands/:id/subscription</code> - requires access token, accepts plan_id, card (a token from the above), promo (promo code), returns a subscription object (same as above)</li>
+<li>
+<code>DELETE /api/v1/connect</code> - requires access token, removes the access token</li>
+<li>
+<code>POST /api/v1/brands/:id/flipbooks</code> - requires access token, accepts the following arguments (either as json or as regular post):</li>
+</ul>
+
+<pre><code>{"data":{"kind":"crowdbook", // allowed values are 'collection', 'campaign', 'social', 'crowdbook'
+         "name":"test4",
+         "moderated":false,
+         "open":false,
+         "private":false,
+         "keyword":"",
+         "mention":"",
+         "username":"",
+         "import_from":"05/27/2015 10:35 am PDT",
+         "import_until":"05/28/2015 04:31 am PDT",
+         "parent_id":"", // for crowdbook albums
+         "featured_offer":{"name":"test", // featured_offer can be null
+                           "description":"test",
+                           "price":"99.99",
+                           "offer_url":"test",
+                           "expires_at":"05/27/2015 10:43 am PDT"},
+          "location":"", // used for display only
+          "radius":"0",
+          "address":"Champ de Mars, Eiffel Tower, 5 Avenue Anatole France, 75007 Paris, France", // use only for geocoding if no geocoords specified
+          "city":"Paris", // used for display only
+          "state":"Île-de-France", // used for display only
+          "zip":"75007",  // used for display only
+          "geocoords":"48.85837009999999,2.2944813000000295"}}
+</code></pre>
+
+<p>returns json representation of the flipbook's data (the same fields as above with addition of urls). Featured offers can also have an image attached - in this case only http multipart can be used, not json, the format is the same, image field should be <code>data[featured_offer][image]</code></p>
+
+<ul>
+<li>
+<code>PUT /api/v1/flipbooks/:id</code> - requires access token, updates the flipbook, arguments are the same as in flipbook creation</li>
+<li>
+<code>DELETE /api/v1/flipbooks/:id</code> - requires access token, deletes the flipbook</li>
+<li>all calls that don't require access token still use it if it's present (to determine if user has access to the flipbook or can like the flip for example)</li>
+<li>
+<code>GET /api/v1/user</code> - requires access token, returns the current user's info:</li>
+</ul>
+
+<pre><code>{ id: ...,
+  login: ...,
+  avatar: ...,
+  small_avatar: ...,
+  has_password: ... // false if signed up using facebook }
+</code></pre>
+
+<p><strong><a href="http://fliptu.com/assets/fliptu.js">http://fliptu.com/assets/fliptu.js</a>:</strong></p>
+
+<ul>
+<li>
+<code>Fliptu.login(client_id, callback)</code> - connects fliptu account to the 3rd party app using the oauth-like flow - it opens up a fliptu login dialog with the ability to signup and login using email and facebook, recover password, etc and asks users to connect fliptu account with 3rd party app and then generates a new access token for the user/app pair and triggers the callback with that token. (for example wordpress integration app calls it like this <code>Fliptu.login('wordpress', function (token) { ... })</code> - the client_id is 'wix' and 'wordpress' for now) - and the token will be null if user cancels the connect request</li>
+<li>
+<code>Fliptu.social(network, callback)</code> - adds a social account to fliptu app and returns one-time unique code in the callback, it doesn't connect the account to any brand or auth a user - it should be done using the <code>POST /api/v1/brands/:id/accounts/:network</code> endpoint from above (for example <code>Fliptu.social('twitter', function (accountId) { ... })</code>)</li>
+<li>
+<code>Fliptu.importBrands(access_token, callback)</code> - asks to grant manage pages permission: opens a new window with 'import brands' button which triggers facebook login - if fliptu user identified by the <code>acces_token</code> already has a facebook account and currently logged in facebook user is not that account, then alert is displayed; if user doesn't grant manage_pages permission, alert is displayed; if everything is ok then <code>callback</code> is triggered with <code>{ success: true }</code>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
