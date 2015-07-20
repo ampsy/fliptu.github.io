@@ -25,6 +25,15 @@
       <section>
         <p><strong><a href="https://fliptu.com">https://fliptu.com</a> back-end:</strong></p>
 
+<p>Access token should be passed as an http parameter:</p>
+
+<ul>
+<li>inside the url for GET requests (<code>GET https://fliptu.com/api/v1/overview?access_token=...</code>)</li>
+<li>inside the url or the post body for POST requests (<code>POST https://api/v1/brands/:id/accounts/:network</code> with <code>access_token=...&amp;account_id=...</code> post data)</li>
+</ul>
+
+<p>Endpoints:</p>
+
 <ul>
 <li>
 <code>GET /api/v1/flipbooks/:id</code> - doesn't require access token</li>
