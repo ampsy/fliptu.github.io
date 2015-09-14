@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fliptu API</title>
+    <meta name="description" content="Fliptu API">
+    <link rel="stylesheet" href="/stylesheets/all.css">
+  </head>
+  <body>
+    <div class="content">
+      <h1 id="fliptu-api-v1">Fliptu API v1</h1>
+
+<h2 id="httpsfliptucom-back-end">https://fliptu.com back-end</h2>
+
+<p>Access token should be passed as an http parameter:</p>
+
+<ul>
+  <li>inside the url for GET requests:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl <span class="s1">&#39;https://fliptu.com/api/v1/overview?access_token=...&#39;</span></code></pre></div>
+
+<ul>
+  <li>inside the url or the post body for POST requests:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s1">&#39;access_token=...&amp;account_id=...&#39;</span> https://fliptu.com/api/v1/brands/:id/accounts/:network</code></pre></div>
+
+<ul>
+  <li>all calls that don’t require access token still use it if it’s present (to determine if user has access to the flipbook or can like the flip for example)</li>
+</ul>
+
+<h3 id="get-apiv1flipbooksid">GET /api/v1/flipbooks/:id</h3>
+
+<p>Doesn’t require access token.</p>
+
+<h3 id="get-apiv1flipbooksidflips">GET /api/v1/flipbooks/:id/flips</h3>
+
+<p>Doesn’t require access token.</p>
+
+<h3 id="get-apiv1flipsid">GET /api/v1/flips/:id</h3>
+
+<p>Doesn’t require access token.</p>
+
+<h3 id="get-apiv1flipsidcomments">GET /api/v1/flips/:id/comments</h3>
+
+<p>Doesn’t require access token.</p>
+
+<h3 id="post-apiv1contactform">POST /api/v1/contact_form</h3>
+
+<p>Doesn’t require access token, accepts name, email, text arguments, sends a message to the staff members (for custom plan requests).</p>
+
+<h3 id="post-apiv1cards">POST /api/v1/cards</h3>
+
+<p>Doesn’t require acces token, accepts <code>params[:card]</code>: a hash with number, name, expiration_month, expiration_year, security_code values, returns a uniq card token in an id field: <code>{ id: '...' }</code></p>
+
+<h3 id="get-apiv1plans">GET /api/v1/plans</h3>
+
+<p>Doesn’t require access token, returns a list of all plans.</p>
+
+<h3 id="get-apiv1overview">GET /api/v1/overview</h3>
+
+<p>Requires access token, lists all brands user has access to:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;personal&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;flipbooks&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;social_page&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">}],</span>
+  <span class="nt">&quot;social_networks&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+                       <span class="nt">&quot;account_id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span> <span class="p">}]}]</span></code></pre></div>
+
+<h3 id="post-apiv1brandsidaccountsnetwork">POST /api/v1/brands/:id/accounts/:network</h3>
+
+<p>Requires access token, accepts account_id (unique code returned by Fliptu.social call), connects the account to the brand.</p>
+
+<h3 id="delete-apiv1brandsidaccountsnetwork">DELETE /api/v1/brands/:id/accounts/:network</h3>
+
+<p>Requires access token, disconnects specified social network account from the brand.</p>
+
+<h3 id="get-apiv1brandsidsubscription">GET /api/v1/brands/:id/subscription</h3>
+
+<p>Requires access token, returns the subscription for the brand:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;plan_id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;card_number&quot;</span><span class="p">:</span> <span class="s2">&quot;(the last 4 digits)&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;feeds_used&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;feeds_extra&quot;</span><span class="p">:</span> <span class="s2">&quot;(the number of extra feeds added in the admin)&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;feeds_limit&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;card_url&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1/cards&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1/brands/:id/subscription&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;contact_form_url&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1/contact_form&quot;</span> <span class="p">}</span></code></pre></div>
+
+<h3 id="put-apiv1brandsidsubscription">PUT /api/v1/brands/:id/subscription</h3>
+
+<p>Requires access token, accepts plan_id, card (a token from the above), promo (promo code), returns a subscription object (same as above).</p>
+
+<h3 id="delete-apiv1connect">DELETE /api/v1/connect</h3>
+
+<p>Requires access token, removes the access token.</p>
+
+<h3 id="post-apiv1brandsidflipbooks">POST /api/v1/brands/:id/flipbooks</h3>
+
+<p>Requires access token, accepts the following arguments (either as json or as regular post):</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;(one of collection, campaign, social, crowdbook)&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test4&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;moderated&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="nt">&quot;open&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="nt">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;mention&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;import_from&quot;</span><span class="p">:</span> <span class="s2">&quot;05/27/2015 10:35 am PDT&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;import_until&quot;</span><span class="p">:</span> <span class="s2">&quot;05/28/2015 04:31 am PDT&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;parent_id&quot;</span><span class="p">:</span> <span class="s2">&quot;(for crowdbook albums)&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;featured_offer&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="nt">&quot;featured_offer&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+                             <span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+                             <span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="s2">&quot;99.99&quot;</span><span class="p">,</span>
+                             <span class="nt">&quot;offer_url&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+                             <span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="s2">&quot;05/27/2015 10:43 am PDT&quot;</span><span class="p">},</span>
+           <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;(for display purposes only)&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;Champ de Mars, Eiffel Tower, 5 Avenue Anatole France, 75007 Paris, France (used only for geocoding if no geocoords specified)&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Paris (for display purposes only)&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;Île-de-France (for display purposes only)&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;zip&quot;</span><span class="p">:</span> <span class="s2">&quot;75007 (for display purposes only)&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;geocoords&quot;</span><span class="p">:</span> <span class="s2">&quot;48.85837009999999,2.2944813000000295&quot;</span><span class="p">}}</span></code></pre></div>
+
+<p>returns json representation of the flipbook’s data (the same fields as above with addition of urls). Featured offers can also have an image attached - in this case only http multipart can be used, not json, the format is the same, image field should be <code>data[featured_offer][image]</code></p>
+
+<h3 id="put-apiv1flipbooksid">PUT /api/v1/flipbooks/:id</h3>
+
+<p>Requires access token, updates the flipbook, arguments are the same as in flipbook creation.</p>
+
+<h3 id="delete-apiv1flipbooksid">DELETE /api/v1/flipbooks/:id</h3>
+
+<p>Requires access token, deletes the flipbook.</p>
+
+<h3 id="get-apiv1user">GET /api/v1/user</h3>
+
+<p>Requires access token, returns the current user’s info:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;login&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;avatar&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;small_avatar&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;has_password&quot;</span><span class="p">:</span> <span class="s2">&quot;(false if signed up using facebook)&quot;</span><span class="p">}</span></code></pre></div>
+
+<h2 id="httpfliptucomassetsfliptujs">http://fliptu.com/assets/fliptu.js</h2>
+
+<h3 id="fliptuloginclientid-callback">Fliptu.login(client_id, callback)</h3>
+
+<p>Connects fliptu account to the 3rd party app using the oauth-like flow - it opens up a fliptu login dialog with the ability to signup and login using email and facebook, recover password, etc and asks users to connect fliptu account with 3rd party app and then generates a new access token for the user/app pair and triggers the callback with that token. (for example wordpress integration app calls it like this <code>Fliptu.login('wordpress', function (token) { ... })</code> - the client_id is ‘wix’ and ‘wordpress’ for now) - and the token will be null if user cancels the connect request</p>
+
+<h3 id="fliptusocialnetwork-callback">Fliptu.social(network, callback)</h3>
+
+<p>Adds a social account to fliptu app and returns one-time unique code in the callback, it doesn’t connect the account to any brand or auth a user - it should be done using the <code>POST /api/v1/brands/:id/accounts/:network</code> endpoint from above (for example <code>Fliptu.social('twitter', function (accountId) { ... })</code>)</p>
+
+<h3 id="fliptuimportbrandsaccesstoken-callback">Fliptu.importBrands(access_token, callback)</h3>
+
+<p>Asks to grant manage pages permission: opens a new window with ‘import brands’ button which triggers facebook login - if fliptu user identified by the <code>acces_token</code> already has a facebook account and currently logged in facebook user is not that account, then alert is displayed; if user doesn’t grant manage_pages permission, alert is displayed; if everything is ok then <code>callback</code> is triggered with <code>{ success: true }</code></p>
+
+    </div>
+  </body>
+</html>

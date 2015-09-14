@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fliptu API</title>
+    <meta name="description" content="Fliptu API">
+    <link rel="stylesheet" href="/stylesheets/all.css">
+  </head>
+  <body>
+    <div class="content">
+      <h1 id="ampsy-api-v2">Ampsy API v2</h1>
+
+<h2 id="httpsampsycom-back-end">https://ampsy.com back-end</h2>
+
+<h3 id="get-apiv2campaignsidpostsjson">GET /api/v2/campaigns/:id/posts.json</h3>
+
+<p>Doesn’t require access token. Accepts the following parameters:</p>
+
+<ul>
+  <li><code>provider</code> - one of facebook, twitter, instagram, youtube, tumblr, flickr. Returns posts imported from the specified provider only.</li>
+  <li><code>timestamp</code> - used for pagination. Returns posts after the given value.</li>
+</ul>
+
+<p>Returns posts from the given campaign:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">329806435</span><span class="p">,</span>
+  <span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-08T09:53:20Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1441706000000_0329806435&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;source_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://instagram.com/p/7XYNUSnrRv/&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_id&quot;</span><span class="p">:</span> <span class="s2">&quot;1069429904780473455_14651964&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_network&quot;</span><span class="p">:</span> <span class="s2">&quot;instagram&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;media_width&quot;</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
+  <span class="nt">&quot;media_height&quot;</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
+  <span class="nt">&quot;media_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e35/11848915_1602697673326743_153140263_n.jpg&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;image_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e35/11848915_1602697673326743_153140263_n.jpg&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;thumb_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e35/11848915_1602697673326743_153140263_n.jpg&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;caption&quot;</span><span class="p">:</span> <span class="s2">&quot;#Repost @mskellybrannigan with @repostapp.\n・・・\nGoodnight LA @RochelleBrodin #RochelleBrodinPhotography @treatsmag @treatswhiteparty 💋nice to run into you #gorgeous @jessegolden&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;rochellebrodin&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://instagram.com/rochellebrodin&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;•rOchelle•brOdin•&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/s150x150/11330755_716969961768287_1368860020_a.jpg&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;imported&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">},</span>
+ <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">329768311</span><span class="p">,</span>
+  <span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;video&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-08T07:59:25Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1441699165000_0329768311&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;source_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://instagram.com/p/7XLK5_qC2L/&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_id&quot;</span><span class="p">:</span> <span class="s2">&quot;1069372564501441931_180747570&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_network&quot;</span><span class="p">:</span> <span class="s2">&quot;instagram&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;media_width&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="nt">&quot;media_height&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="nt">&quot;media_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://api.embed.ly/1/video?width=500&amp;height=500&amp;mp4=https%3A%2F%2Fscontent.cdninstagram.com%2Fhphotos-xaf1%2Ft50.2886-16%2F11898964_1664352733781620_1508190450_n.mp4&amp;poster=https%3A%2F%2Fscontent.cdninstagram.com%2Fhphotos-xfa1%2Ft51.2885-15%2Fe15%2F11909381_882492231817373_222996789_n.jpg&amp;schema=instagram&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;image_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e15/11909381_882492231817373_222996789_n.jpg&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;caption&quot;</span><span class="p">:</span> <span class="s2">&quot;These guys killed it tonight by producing such a great event @experiencenve @bretthyman @treatsmag #TreatsWhiteParty @maliburockyoaks thank you!!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://scontent.cdninstagram.com/hphotos-xta1/t51.2885-19/11137600_1588330394775745_2027507912_a.jpg&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Steve Shaw 🇬🇧📷&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://instagram.com/steveshawphotos&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;steveshawphotos&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;imported&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">},</span>
+ <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">329766241</span><span class="p">,</span>
+  <span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-08T06:46:56Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1441694816000_0329766241&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;source_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://twitter.com/statuses/641140647257206784&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_id&quot;</span><span class="p">:</span> <span class="s2">&quot;641140647257206784&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;social_network&quot;</span><span class="p">:</span> <span class="s2">&quot;twitter&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;media_width&quot;</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
+  <span class="nt">&quot;media_height&quot;</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
+  <span class="nt">&quot;media_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://pbs.twimg.com/media/COXKBY8VAAADXF6.jpg:large&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;image_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://pbs.twimg.com/media/COXKBY8VAAADXF6.jpg:small&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;thumb_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://pbs.twimg.com/media/COXKBY8VAAADXF6.jpg:thumb&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;caption&quot;</span><span class="p">:</span> <span class="s2">&quot;We love @treatsmagazine. best times at #treatswhiteparty. http://t.co/EK9o61K6Cd&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;sarahtk&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://twitter.com/sarahtk&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://pbs.twimg.com/profile_images/636400182117056512/uTR2mDkY_normal.jpg&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sarah Tither-Kaplan&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;imported&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}]</span></code></pre></div>
+
+
+    </div>
+  </body>
+</html>
